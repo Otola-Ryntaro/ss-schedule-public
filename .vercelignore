@@ -1,0 +1,23 @@
+# where: .vercelignore
+# what:  Files to exclude from the Vercel deploy bundle (`vercel deploy`).
+# why:   `.gitignore` only protects git; `vercel deploy` ships every local file
+#        unless this file excludes it. `.env*.local` must NEVER reach the build
+#        bundle — Next.js auto-loads `.env*.local` at build time, which would
+#        override the project-level env vars set via `vercel env add`. Real
+#        secrets live exclusively in Vercel's dashboard / CLI env management.
+
+# Local env files (real secrets)
+.env*
+
+# Local-only artifacts (no impact on production runtime)
+.claude/
+.agent/
+daily_report/
+[Codex]/
+test-results/
+playwright-report/
+
+# Chrome extension is distributed separately (chrome.google.com/webstore or
+# unpacked load), not via Vercel. Excluding keeps the deploy bundle slim.
+/extension/
+/icons/

@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "SS_schedule",
+  "version": "0.1.0",
+  "description": "表示中ページの選択範囲またはテキストから Google カレンダー予定を作成します。",
+  "permissions": ["sidePanel", "activeTab", "scripting", "storage", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "SS_schedule",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "side-panel.html"
+  },
+  "externally_connectable": {
+    "matches": ["https://ss-schedule.vercel.app/*"]
+  }
+}

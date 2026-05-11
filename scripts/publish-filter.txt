@@ -1,0 +1,50 @@
+# publish-filter.txt — rsync filter rules for SS_Schedule_publish/
+# where: scripts/publish-filter.txt
+# what : メイン SS_schedule/ から公開対象だけを SS_Schedule_publish/ に同期するための rsync フィルタ
+# why  : 思考ログ・秘密・ローカル状態を public repo に絶対に出さないため、include を先頭・exclude を後段で多層防御
+#
+# 注意: rsync は上から順にマッチした最初のルールを採用する。include(+) を先に、exclude(-) を後に書く。
+# 使い方: rsync -av --delete --filter='. scripts/publish-filter.txt' SS_schedule/ SS_Schedule_publish/
+
+# ── 例外的に公開する .env 系テンプレート（必ず .env* exclude より上）
++ .env.local.example
++ .env.vercel.template
++ .env.*.example
++ .env.*.template
+
+# ── 秘密関連（テンプレート以外の .env* は全部弾く）
+- .env
+- .env.*
+
+# ── 内部資産（ディレクトリ）
+# 注: rsync filter は [ ] を文字クラスとして解釈するためエスケープが必要
+- .git/
+- .claude/
+- .agent/
+- .vercel/
+- .next/
+- node_modules/
+- SS_Schedule_publish/
+- SS_Schedule_publish.bak/
+- \[Codex\]/
+- daily_report/
+- docs/
+- note_article/
+- tasks/
+- coverage/
+- playwright-report/
+- test-results/
+- .pytest_cache/
+- .nyc_output/
+
+# ── 内部資産（個別ファイル）
+- Plans.md
+- CLAUDE.md
+- Agent.md
+- memo.md
+- bun.lockb
+- .DS_Store
+- *.log
+- *.tsbuildinfo
+- *.pem
+- *.key

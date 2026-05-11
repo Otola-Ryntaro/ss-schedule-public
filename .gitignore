@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+vendor/
+.venv/
+__pycache__/
+*.pyc
+
+# Environment
+.env*
+!.env*.example
+!.env*.template
+
+# Build
+dist/
+build/
+.next/
+out/
+*.log
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel
+.vercel
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*~
+
+# Test / Coverage
+coverage/
+.nyc_output/
+.pytest_cache/
+playwright-report/
+test-results/
+
+# Claude / AI
+.claude/cache/
+.claude/state/
+.claude/sessions/
+.claude/memory/
+.agent/
+.aider*
+daily_report/
+
+# Secrets
+*.pem
+*.key
+secrets/
+
+# Publish mirror（公開リポは別管理。メイン repo に二重 push しない）
+SS_Schedule_publish/
+SS_Schedule_publish.bak/
