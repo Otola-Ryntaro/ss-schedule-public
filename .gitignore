@@ -5,6 +5,9 @@ vendor/
 __pycache__/
 *.pyc
 
+# Lockfile（bun.lockb を正本とする。npm 系の lockfile はコミットしない）
+package-lock.json
+
 # Environment
 .env*
 !.env*.example
@@ -36,11 +39,9 @@ coverage/
 playwright-report/
 test-results/
 
-# Claude / AI
-.claude/cache/
-.claude/state/
-.claude/sessions/
-.claude/memory/
+# Claude / AI（個人セッション状態・思考ログは完全にローカル保持）
+.claude/
+\[Codex\]/
 .agent/
 .aider*
 daily_report/

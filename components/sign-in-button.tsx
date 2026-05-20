@@ -24,6 +24,28 @@ export function SignInForm() {
   );
 }
 
+// Re-authentication trigger. Identical OAuth call as SignInForm, but worded for the
+// "your Google connection expired" case so the user knows this fixes a broken state
+// rather than starting a fresh login. access_type:offline + prompt:consent (see auth.ts)
+// guarantee a brand-new refresh token is issued, which is what recovers the connection.
+export function ReconnectForm() {
+  return (
+    <form
+      action={async () => {
+        "use server";
+        await signIn("google");
+      }}
+    >
+      <button
+        type="submit"
+        className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc]"
+      >
+        Google に再接続
+      </button>
+    </form>
+  );
+}
+
 export function SignOutForm() {
   return (
     <form

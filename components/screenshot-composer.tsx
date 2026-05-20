@@ -11,6 +11,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { AuthStatusButton } from "@/components/auth-status-button";
 import { ImageInput } from "@/components/image-input";
 import { TextPastePanel } from "@/components/text-paste-panel";
 import { ExtractResponseSchema } from "@/lib/schema";
@@ -23,11 +24,19 @@ type Mode = "image" | "text";
 
 type ComposerProps = {
   email: string;
-  // Rendered on the server (Auth.js Server Action form lives in the parent).
+  // Rendered on the server (Auth.js Server Action forms live in the parent).
   signOutSlot: ReactNode;
+  reconnectSlot: ReactNode;
+  // True when the server detected a dead Google refresh token (session.error).
+  authStale: boolean;
 };
 
-export function ScreenshotComposer({ email, signOutSlot }: ComposerProps) {
+export function ScreenshotComposer({
+  email,
+  signOutSlot,
+  reconnectSlot,
+  authStale,
+}: ComposerProps) {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [text, setText] = useState("");
@@ -168,8 +177,12 @@ export function ScreenshotComposer({ email, signOutSlot }: ComposerProps) {
             画面のどこでも Cmd/Ctrl+V で画像 / テキストを貼り付けできます。
           </p>
         </div>
-        <div className="flex items-center gap-3 text-xs">
+        <div className="flex flex-wrap items-center justify-end gap-2 text-xs">
           <span className="text-zinc-600 dark:text-zinc-400">{email}</span>
+          <AuthStatusButton
+            reconnectSlot={reconnectSlot}
+            initialStale={authStale}
+          />
           {signOutSlot}
         </div>
       </header>

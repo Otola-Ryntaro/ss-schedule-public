@@ -8,17 +8,29 @@
 import { Camera, Sparkles, CalendarPlus, ShieldCheck } from "lucide-react";
 import { auth } from "@/auth";
 import { ScreenshotComposer } from "@/components/screenshot-composer";
-import { SignInForm, SignOutForm } from "@/components/sign-in-button";
+import {
+  ReconnectForm,
+  SignInForm,
+  SignOutForm,
+} from "@/components/sign-in-button";
 
 export default async function Home() {
   const session = await auth();
   const email = session?.user?.email ?? null;
+  // session.error is set by the auth.ts jwt callback when the Google refresh token
+  // fails — surface it so the header can show "要再接続" without an extra round-trip.
+  const authStale = session?.error === "RefreshAccessTokenError";
 
   return (
     <div className="flex min-h-screen flex-1 flex-col bg-zinc-50 font-sans dark:bg-black">
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
         {email ? (
-          <ScreenshotComposer email={email} signOutSlot={<SignOutForm />} />
+          <ScreenshotComposer
+            email={email}
+            signOutSlot={<SignOutForm />}
+            reconnectSlot={<ReconnectForm />}
+            authStale={authStale}
+          />
         ) : (
           <LandingPane />
         )}
